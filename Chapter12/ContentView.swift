@@ -11,15 +11,15 @@ struct ContentView: View {
     
     var body: some View {
         TabView {
-            Text("Item 1")
+            AlertActionSheetView()
                 .tabItem {
                     Image(systemName: "1.circle")
-                    Text(" ")
+                    Text("Alerts")
                 }
-            Text("Item 2")
+            ContextMenuView()
                 .tabItem {
                     Image(systemName: "2.circle")
-                    Text(" ")
+                    Text("Context Menus")
                 }
             
         }
@@ -32,3 +32,5 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+
