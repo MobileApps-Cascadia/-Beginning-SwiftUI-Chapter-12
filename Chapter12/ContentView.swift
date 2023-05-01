@@ -21,6 +21,11 @@ struct ContentView: View {
                     Image(systemName: "2.circle")
                     Text("Context Menus")
                 }
+            GameView()
+                .tabItem {
+                    Image(systemName: "3.square")
+                    Text("Game")
+                }
             
         }
         .padding()

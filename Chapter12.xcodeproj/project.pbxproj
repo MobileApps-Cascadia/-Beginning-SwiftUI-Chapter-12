@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E42962EF29FF21F800F4A115 /* AlertActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42962EE29FF21F800F4A115 /* AlertActionSheetView.swift */; };
 		E42962F129FF22A200F4A115 /* ContextMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42962F029FF22A200F4A115 /* ContextMenuView.swift */; };
+		E429630029FF8CB500F4A115 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42962FF29FF8CB500F4A115 /* Game.swift */; };
 		E4C02AA729FECDB100B8ACA9 /* Chapter12App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C02AA629FECDB100B8ACA9 /* Chapter12App.swift */; };
 		E4C02AA929FECDB100B8ACA9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C02AA829FECDB100B8ACA9 /* ContentView.swift */; };
 		E4C02AAB29FECDB300B8ACA9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4C02AAA29FECDB300B8ACA9 /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 /* Begin PBXFileReference section */
 		E42962EE29FF21F800F4A115 /* AlertActionSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertActionSheetView.swift; sourceTree = "<group>"; };
 		E42962F029FF22A200F4A115 /* ContextMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextMenuView.swift; sourceTree = "<group>"; };
+		E42962FF29FF8CB500F4A115 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		E4C02AA329FECDB100B8ACA9 /* Chapter12.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chapter12.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4C02AA629FECDB100B8ACA9 /* Chapter12App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter12App.swift; sourceTree = "<group>"; };
 		E4C02AA829FECDB100B8ACA9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 				E42962F029FF22A200F4A115 /* ContextMenuView.swift */,
 				E4C02AAA29FECDB300B8ACA9 /* Assets.xcassets */,
 				E4C02AAC29FECDB300B8ACA9 /* Preview Content */,
+				E42962FF29FF8CB500F4A115 /* Game.swift */,
 			);
 			path = Chapter12;
 			sourceTree = "<group>";
@@ -144,6 +147,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4C02AA929FECDB100B8ACA9 /* ContentView.swift in Sources */,
+				E429630029FF8CB500F4A115 /* Game.swift in Sources */,
 				E42962F129FF22A200F4A115 /* ContextMenuView.swift in Sources */,
 				E4C02AA729FECDB100B8ACA9 /* Chapter12App.swift in Sources */,
 				E42962EF29FF21F800F4A115 /* AlertActionSheetView.swift in Sources */,
