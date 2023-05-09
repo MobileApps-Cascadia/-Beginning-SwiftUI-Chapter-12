@@ -47,8 +47,11 @@ struct GameView: View {
         @Binding var char: GameCharacter
         var everyone : [Binding<GameCharacter>]
         
-
+        
         @State private var victim: GameCharacter? = nil
+        @State private var showingAttackSheet = false
+        @State private var showingAlert = false
+        @State private var selectedTarget: GameCharacter? = nil
         
         var body: some View {
             VStack {
@@ -63,36 +66,47 @@ struct GameView: View {
             .padding()
             .contextMenu(menuItems: {
                 Button("Attack", action: {
-                    // TODO: Show the 'who do you want to attack' actionsheet
+                    showingAttackSheet = true
                 })
                 
                 Button("Heal", action: {
-                    char.hp += 1
-                    // This would be better with an attention-getting animation
+                    withAnimation {
+                        char.hp += 1
+                    }
                 })
             })
-//            .actionSheet(isPresented: /* TODO: FILL THIS IN */) {
-//                // .map will create an array, each of which is an ActionSheet.Button.x
-//                let buttons = everyone.map { character in
-//                    ActionSheet.Button.default(Text(character.wrappedValue.name)) {
-//                        // handle attack action
-//                        character.wrappedValue.hp -= char.dmg
-//                    }
-//                }
-//                
-//                return ActionSheet(
-//                    title: Text("Targets:"),
-//                    message: Text("Who would you like \(char.name) to attack?"),
-//                    buttons: buttons
-//                )
-//            }
-                // TODO: Display the alert here, confirming that X attacked Y and did Z points of damage
+            .actionSheet(isPresented: $showingAttackSheet) {
+                // .map will create an array, each of which is an ActionSheet.Button.x
+                let buttons = everyone.map { character in
+                    ActionSheet.Button.default(Text(character.wrappedValue.name)) {
+                        // handle attack action
+                        if char.hp > 0 && character.wrappedValue.hp > 0 {
+                            selectedTarget = character.wrappedValue
+                            character.wrappedValue.hp -= char.dmg
+                            showingAlert = true
+                        }
+                    }
+                }
+                
+                return ActionSheet(
+                    title: Text("Targets:"),
+                    message: Text("Who would you like \(char.name) to attack?"),
+                    buttons: buttons
+                )
+            }
+            .alert(isPresented: $showingAlert) {
+                if var victim = selectedTarget { // Change let to var
+                    let damage = char.dmg
+                    victim.hp -= damage
+                    let message = "\(char.name) attacked \(victim.name) and inflicted \(damage) points of damage, leaving \(max(0, victim.hp)) HP left"
+                    return Alert(title: Text("Attack Result"), message: Text(message), dismissButton: .default(Text("OK")))
+                } else {
+                    return Alert(title: Text("Attack Result"), message: Text("No target selected"), dismissButton: .default(Text("OK")))
+                }
+            }
         }
     }
 }
-
-
-
 struct GameView_Previews: PreviewProvider {
     static var previews: some View {
         GameView()
