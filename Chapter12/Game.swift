@@ -50,6 +50,9 @@ struct GameView: View {
 
         @State private var victim: GameCharacter? = nil
         
+        
+        @State var respondToButtonInActionSheet = false
+        @State var attackAlert = false
         var body: some View {
             VStack {
                 Text(char.name)
@@ -63,7 +66,7 @@ struct GameView: View {
             .padding()
             .contextMenu(menuItems: {
                 Button("Attack", action: {
-                    // TODO: Show the 'who do you want to attack' actionsheet
+                    respondToButtonInActionSheet.toggle()
                 })
                 
                 Button("Heal", action: {
@@ -71,22 +74,28 @@ struct GameView: View {
                     // This would be better with an attention-getting animation
                 })
             })
-//            .actionSheet(isPresented: /* TODO: FILL THIS IN */) {
-//                // .map will create an array, each of which is an ActionSheet.Button.x
-//                let buttons = everyone.map { character in
-//                    ActionSheet.Button.default(Text(character.wrappedValue.name)) {
-//                        // handle attack action
-//                        character.wrappedValue.hp -= char.dmg
-//                    }
-//                }
-//                
-//                return ActionSheet(
-//                    title: Text("Targets:"),
-//                    message: Text("Who would you like \(char.name) to attack?"),
-//                    buttons: buttons
-//                )
-//            }
-                // TODO: Display the alert here, confirming that X attacked Y and did Z points of damage
+            .actionSheet(isPresented: $respondToButtonInActionSheet) {
+                // .map will create an array, each of which is an ActionSheet.Button.x
+                let buttons = everyone.map { character in
+                    ActionSheet.Button.default(Text(character.wrappedValue.name)) {
+                        // handle attack action
+                        character.wrappedValue.hp -= char.dmg
+                        victim = character.wrappedValue
+                        attackAlert.toggle()
+                    }
+                }
+                
+                return ActionSheet(
+                    title: Text("Targets:"),
+                    message: Text("Who would you like \(char.name) to attack?"),
+                    buttons: buttons
+                )
+            }
+            
+            .alert(isPresented: $attackAlert) {
+                Alert(title: Text("\(char.name) attacked \(victim!.name) and did \(char.dmg) damage!"),
+                      dismissButton: .default(Text("OK")))
+            }
         }
     }
 }
