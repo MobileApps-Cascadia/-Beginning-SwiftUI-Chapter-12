@@ -1,4 +1,4 @@
-//
+// Modified game.swift
 //  AlertActionSheetView.swift
 //  Chapter12
 //
@@ -7,13 +7,15 @@
 
 import SwiftUI
 
-struct GameCharacter {
+struct GameCharacter: Identifiable {
+    var id = UUID() // Add an identifier for conformance
     var name : String
     var hp : Int
     var dmg : Int
 }
 
 struct GameView: View {
+    //@State private var isAttackSuccessVisible = false
     @State var npcOrc = GameCharacter(name:"Orc", hp: 7, dmg: 3)
     @State var npcGoblin = GameCharacter(name:"Goblin", hp: 3, dmg: 2)
     @State var pcKnight = GameCharacter(name:"Sir Slays-A-Lot", hp: 9, dmg: 4)
@@ -44,11 +46,12 @@ struct GameView: View {
     }
     
     struct CharacterView: View {
+       // @Binding var isAttackSuccessVisible: Bool
         @Binding var char: GameCharacter
         var everyone : [Binding<GameCharacter>]
-        
-
+        @State private var isActionSheetPresented = false
         @State private var victim: GameCharacter? = nil
+      
         
         var body: some View {
             VStack {
@@ -63,38 +66,61 @@ struct GameView: View {
             .padding()
             .contextMenu(menuItems: {
                 Button("Attack", action: {
-                    // TODO: Show the 'who do you want to attack' actionsheet
+                    isActionSheetPresented = true //Show the action sheeet
+                    //  Show the 'who do you want to attack' actionsheet
+                    //victim = char
                 })
                 
                 Button("Heal", action: {
-                    char.hp += 1
-                    // This would be better with an attention-getting animation
+                    withAnimation(.spring()) {
+                        char.hp += 1
+                    }
                 })
             })
-//            .actionSheet(isPresented: /* TODO: FILL THIS IN */) {
-//                // .map will create an array, each of which is an ActionSheet.Button.x
-//                let buttons = everyone.map { character in
-//                    ActionSheet.Button.default(Text(character.wrappedValue.name)) {
-//                        // handle attack action
-//                        character.wrappedValue.hp -= char.dmg
-//                    }
-//                }
-//                
-//                return ActionSheet(
-//                    title: Text("Targets:"),
-//                    message: Text("Who would you like \(char.name) to attack?"),
-//                    buttons: buttons
-//                )
-//            }
-                // TODO: Display the alert here, confirming that X attacked Y and did Z points of damage
+            .actionSheet(isPresented: $isActionSheetPresented) {
+                
+                let buttons = everyone.map{
+                    character in ActionSheet.Button.default(Text(character.wrappedValue.name)){
+                        character.wrappedValue.hp -= char.dmg
+                        
+                        //  handle attack action
+                    }
+                }
+                
+                
+                
+                return ActionSheet(
+                    title: Text("Targets:"),
+                    message: Text("Who would you like \(char.name) to attack?"),
+                    buttons: buttons
+                )
+            }
+            //  Display the alert here, confirming that X attacked Y and did Z points of damage
+            
+            .alert(item: $victim) { victim in
+                let damage = char.dmg
+                return Alert(
+                    title: Text("\(char.name) attacked \(victim.name)"),
+                    message: Text("\(char.name) did \(damage) points of damage to \(victim.name)!"),
+                    primaryButton: .default(Text("OK")) {
+                       // isAttackSuccessVisible = true // Show attack success message
+                    },
+                    secondaryButton: .cancel()
+                    // Handle alert dismissal if needed
+                    
+                )
+            }
+            
+        }
+    }
+    
+    
+    
+    
+    struct GameView_Previews: PreviewProvider {
+        static var previews: some View {
+            GameView()
         }
     }
 }
 
-
-
-struct GameView_Previews: PreviewProvider {
-    static var previews: some View {
-        GameView()
-    }
-}
